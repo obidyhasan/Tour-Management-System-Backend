@@ -3,43 +3,39 @@ import bcryptjs from "bcryptjs";
 import httpStatus from "http-status-codes";
 import AppError from "../../errorHelpers/AppError";
 import { User } from "../user/user.model";
-import { IUser } from "../user/user.interface";
-import {
-  createNewAccessTokenWithRefreshToken,
-  createUserTokens,
-} from "../../utils/userTokens";
+import { createNewAccessTokenWithRefreshToken } from "../../utils/userTokens";
 import { JwtPayload } from "jsonwebtoken";
 import { envVars } from "../../config/env";
 
-const credentialsLogin = async (payload: Partial<IUser>) => {
-  const { email, password } = payload;
+// const credentialsLogin = async (payload: Partial<IUser>) => {
+//   const { email, password } = payload;
 
-  const isUserExist = await User.findOne({ email });
+//   const isUserExist = await User.findOne({ email });
 
-  if (!isUserExist) {
-    throw new AppError(httpStatus.BAD_REQUEST, "Email does not exist");
-  }
+//   if (!isUserExist) {
+//     throw new AppError(httpStatus.BAD_REQUEST, "Email does not exist");
+//   }
 
-  const isPasswordMatched = await bcryptjs.compare(
-    password as string,
-    isUserExist.password as string
-  );
+//   const isPasswordMatched = await bcryptjs.compare(
+//     password as string,
+//     isUserExist.password as string
+//   );
 
-  if (!isPasswordMatched) {
-    throw new AppError(httpStatus.BAD_REQUEST, "Incorrect Password");
-  }
+//   if (!isPasswordMatched) {
+//     throw new AppError(httpStatus.BAD_REQUEST, "Incorrect Password");
+//   }
 
-  const userToken = createUserTokens(isUserExist);
+//   const userToken = createUserTokens(isUserExist);
 
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const { password: pass, ...rest } = isUserExist.toObject();
+//   // eslint-disable-next-line @typescript-eslint/no-unused-vars
+//   const { password: pass, ...rest } = isUserExist.toObject();
 
-  return {
-    accessToken: userToken.accessToken,
-    refreshToken: userToken.refreshToken,
-    user: rest,
-  };
-};
+//   return {
+//     accessToken: userToken.accessToken,
+//     refreshToken: userToken.refreshToken,
+//     user: rest,
+//   };
+// };
 
 const getNewAccessToken = async (refreshToken: string) => {
   const newAccessToken = await createNewAccessTokenWithRefreshToken(
@@ -73,7 +69,7 @@ const resetPassword = async (
 };
 
 export const AuthService = {
-  credentialsLogin,
+  // credentialsLogin,
   getNewAccessToken,
   resetPassword,
 };

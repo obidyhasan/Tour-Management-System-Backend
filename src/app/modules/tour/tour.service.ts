@@ -2,6 +2,8 @@ import httpStatus from "http-status-codes";
 import AppError from "../../errorHelpers/AppError";
 import { ITour, ITourType } from "./tour.interface";
 import { Tour, TourType } from "./tour.model";
+import { QueryBuilder } from "../../utils/QueryBuilder";
+import { tourSearchableFields } from "./tour.constant";
 
 /* -------------------------- Tour Type Service ---------------------------- */
 
@@ -43,15 +45,24 @@ const deleteTourType = async (tourTypeId: string) => {
 
 /* -------------------------- Tour Service ---------------------------- */
 
-const getAllTour = async () => {
-  const tours = await Tour.find({});
-  const totalTours = await Tour.countDocuments();
+const getAllTour = async (query: Record<string, string>) => {
+  const queryBuilder = new QueryBuilder(Tour.find(), query);
+
+  const tours = await queryBuilder
+    .search(tourSearchableFields)
+    .filter()
+    .sort()
+    .fields()
+    .paginate();
+
+  const [data, meta] = await Promise.all([
+    tours.build(),
+    queryBuilder.getMeta(),
+  ]);
 
   return {
-    data: tours,
-    meta: {
-      total: totalTours,
-    },
+    data,
+    meta,
   };
 };
 

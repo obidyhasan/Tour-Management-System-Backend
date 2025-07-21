@@ -4,11 +4,11 @@ import { NextFunction, Request, Response } from "express";
 
 import { envVars } from "../config/env";
 import AppError from "../errorHelpers/AppError";
-import { handlerDuplicateError } from "../../helpers/handleDuplicateError";
-import { handleCastError } from "../../helpers/handleCastError";
-import { handleValidationError } from "../../helpers/handleValidationError";
+import { handlerDuplicateError } from "./../helpers/handleDuplicateError";
+import { handleCastError } from "./../helpers/handleCastError";
+import { handleValidationError } from "./../helpers/handleValidationError";
 import { TErrorSources } from "../interfaces/error.types";
-import { handleZodError } from "../../helpers/handleZodError";
+import { handleZodError } from "./../helpers/handleZodError";
 
 export const globalErrorHandler = (
   err: any,

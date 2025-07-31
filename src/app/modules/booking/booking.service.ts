@@ -8,7 +8,7 @@ import { Booking } from "./booking.model";
 import { Payment } from "../payment/payment.model";
 import { PAYMENT_STATUS } from "../payment/payment.interface";
 import { ISSLCommerz } from "../sslCommerz/sslCommerz.interface";
-import { SSLService } from "../sslCommerz/sslCommerz.model";
+import { SSLService } from "../sslCommerz/sslCommerz.service";
 import { getTransactionId } from "../../utils/getTransactionId";
 
 const createBooking = async (payload: Partial<IBooking>, userId: string) => {
